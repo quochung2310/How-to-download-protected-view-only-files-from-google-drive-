@@ -15,7 +15,8 @@
 
 4.  Paste below code and press Enter:
 5.  Updated: Fix: Uncaught TypeError: Failed to set the 'src' property on 'HTMLScriptElement': This document requires 'TrustedScriptURL' assignment.
-        // Create a Trusted Types policy if available
+```
+     // Create a Trusted Types policy if available
 const policy = window.trustedTypes 
   ? trustedTypes.createPolicy('default', { createScriptURL: url => url })
   : null;
@@ -47,5 +48,6 @@ jspdf.src = policy
   : 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js';
 
 document.body.appendChild(jspdf);
+```
         
 6. Now, the pdf file start to download. This might take a few minutes depending on the file size.
