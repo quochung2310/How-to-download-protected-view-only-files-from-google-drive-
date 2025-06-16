@@ -14,28 +14,38 @@
 3.  Navigate to the "Console" tab.
 
 4.  Paste below code and press Enter:
+5.  Updated: Fix: Uncaught TypeError: Failed to set the 'src' property on 'HTMLScriptElement': This document requires 'TrustedScriptURL' assignment.
+        // Create a Trusted Types policy if available
+const policy = window.trustedTypes 
+  ? trustedTypes.createPolicy('default', { createScriptURL: url => url })
+  : null;
 
-        let jspdf = document.createElement( "script" );
-        jspdf.onload = function () {
-        let pdf = new jsPDF();
-        let elements = document.getElementsByTagName( "img" );
-        for ( let i in elements) {
-        let img = elements[i];
-        if (!/^blob:/.test(img.src)) {
-        continue ;
-        }
-        let canvasElement = document.createElement( 'canvas' );
-        let con = canvasElement.getContext( "2d" );
-        canvasElement.width = img.width;
-        canvasElement.height = img.height;
-        con.drawImage(img, 0, 0,img.width, img.height);
-        let imgData = canvasElement.toDataURL( "image/jpeg" , 1.0);
-        pdf.addImage(imgData, 'JPEG' , 0, 0);
-        pdf.addPage();
-        }
-        pdf.save( "download.pdf" );
-        };
-        jspdf.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js' ;
-        document.body.appendChild(jspdf);
+let jspdf = document.createElement("script");
+jspdf.onload = function () {
+  let pdf = new jsPDF();
+  let elements = document.getElementsByTagName("img");
+  for (let i in elements) {
+    let img = elements[i];
+    if (!/^blob:/.test(img.src)) {
+      continue;
+    }
+    let canvasElement = document.createElement('canvas');
+    let con = canvasElement.getContext("2d");
+    canvasElement.width = img.width;
+    canvasElement.height = img.height;
+    con.drawImage(img, 0, 0, img.width, img.height);
+    let imgData = canvasElement.toDataURL("image/jpeg", 1.0);
+    pdf.addImage(imgData, 'JPEG', 0, 0);
+    pdf.addPage();
+  }
+  pdf.save("download.pdf");
+};
 
-5. Now, the pdf file start to download. This might take a few minutes depending on the file size.
+// Use the policy to set the src attribute if available
+jspdf.src = policy 
+  ? policy.createScriptURL('https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js')
+  : 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js';
+
+document.body.appendChild(jspdf);
+        
+6. Now, the pdf file start to download. This might take a few minutes depending on the file size.
