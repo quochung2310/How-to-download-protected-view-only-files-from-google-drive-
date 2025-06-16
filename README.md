@@ -52,7 +52,7 @@ document.body.appendChild(jspdf);
         
 6. Now, the pdf file start to download. This might take a few minutes depending on the file size.
 
-   Another code to try:
+Another code to try: Source: https://www.youtube.com/watch?v=J5w6HYmzyzU
 
    ```
 	let trustedURL;
